@@ -1,4 +1,5 @@
 #!/bin/bash
+mkdir -p tars conf
 if test "$1" = 'production'
 then
     echo 'starting configuration server'

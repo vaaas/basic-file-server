@@ -12,7 +12,7 @@ function route(Request $request): Response {
         $pathname = 'conf' . $request->url;
         if (!file_exists($pathname)) return new NotFound();
         if (is_dir($pathname)) return handle_directory($pathname);
-        else return handle_file($pathname);
+        else return new BlobResponse($pathname);
     } catch (\Throwable $e) { return handle_error($e); }
 }
 
@@ -30,10 +30,6 @@ function authenticate(Request $request): bool {
 function handle_error(\Throwable $e): Response {
     error_log($e->getMessage() . "\n" .$e->getTraceAsString());
     return new InternalServerError($e->getMessage());
-}
-
-function handle_file(string $x): Response {
-    return new JSONResponse(["Handling a file"], 400);
 }
 
 function handle_directory(string $x): Response {

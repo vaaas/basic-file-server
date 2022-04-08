@@ -20,6 +20,28 @@ class JSONResponse extends Response {
     }
 }
 
+class BlobResponse extends Response {
+    function __construct(string $pathname, int $status=200) {
+        parent::__construct($status, ['Content-Type' => 'application/octet-stream'], $pathname);
+    }
+
+    function serve(): void {
+        $chunk_size = 1024*4;
+        $handle = fopen($this->body, 'rb');
+
+        http_response_code($this->status);
+        foreach ($this->headers as $k=>$v) header($k . ': ' . $v);
+
+        while (!feof($handle)) {
+            echo fread($handle, $chunk_size);
+            ob_flush();
+            flush();
+        }
+
+        fclose($handle);
+    }
+}
+
 class Unauthorized extends Response {
     function __construct(string $message='Unauthorized') {
         parent::construct(401, ['Content-type' => 'text/plain'], $message);
