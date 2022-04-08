@@ -51,7 +51,7 @@ class EphemeralBlobResponse extends BlobResponse {
 
 class Unauthorized extends Response {
     function __construct(string $message='Unauthorized') {
-        parent::construct(401, ['Content-type' => 'text/plain'], $message);
+        parent::__construct(401, ['Content-type' => 'text/plain'], $message);
     }
 }
 

@@ -16,7 +16,7 @@ function generateRandomString(int $length = 10): string {
 function route(Request $request): Response {
     try {
         if ($request->method !== 'GET') return new MethodNotAllowed();
-        if (!authenticate($request)) return new Unauthenticated();
+        if (!authenticate($request)) return new Unauthorized();
         if ($request->url === '/') return new Response(200, ['Content-Type' => 'text/plain' ], 'You are authenticated');
         $pathname = 'conf' . $request->url;
         if (!file_exists($pathname)) return new NotFound();
