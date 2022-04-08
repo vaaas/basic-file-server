@@ -2,7 +2,11 @@
 mkdir -p tars conf
 
 if test -z "$PORT"
-then PORT='8000'
+then export PORT='8000'
+fi
+
+if test -z "$TOKEN"
+then export TOKEN='test'
 fi
 
 if test "$1" = 'production'

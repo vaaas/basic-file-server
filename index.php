@@ -2,7 +2,6 @@
 
 require_once 'lib/response.php';
 require_once 'lib/request.php';
-$conf = require('./conf.php');
 
 function generateRandomString(int $length = 10): string {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -26,14 +25,13 @@ function route(Request $request): Response {
 }
 
 function authenticate(Request $request): bool {
-    global $conf;
     $x = $request->header('Authorization');
     if (!$x) return false;
     if (strlen($x) < 7) return false;
     $x = base64_decode(substr($x, 6), true);
     if (!$x) return false;
     $x = substr($x, 0, -1);
-    return $x === $conf['token'];
+    return $x === getenv('TOKEN');
 }
 
 function handle_error(\Throwable $e): Response {
