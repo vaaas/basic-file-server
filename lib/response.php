@@ -42,6 +42,13 @@ class BlobResponse extends Response {
     }
 }
 
+class EphemeralBlobResponse extends BlobResponse {
+    function serve(): void {
+        parent::serve();
+        unlink($this->body);
+    }
+}
+
 class Unauthorized extends Response {
     function __construct(string $message='Unauthorized') {
         parent::construct(401, ['Content-type' => 'text/plain'], $message);

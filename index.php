@@ -4,6 +4,15 @@ require_once 'lib/response.php';
 require_once 'lib/request.php';
 $conf = require('./conf.php');
 
+function generateRandomString(int $length = 10): string {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++)
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    return $randomString;
+}
+
 function route(Request $request): Response {
     try {
         if ($request->method !== 'GET') return new MethodNotAllowed();
@@ -33,7 +42,9 @@ function handle_error(\Throwable $e): Response {
 }
 
 function handle_directory(string $x): Response {
-    return new JSONResponse(["Can't handle directories yet"], 400);
+    $name = './tars/' . generateRandomString() . '.tar';
+    exec("tar cf {$name} -C {$x} .");
+    return new EphemeralBlobResponse($name);
 }
 
 function main() {
