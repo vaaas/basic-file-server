@@ -1,0 +1,5 @@
+#!/bin/sh
+chown -R www-data:www-data /opt/configuration-server
+systemctl daemon-reload
+systemctl enable configuration-server || true
+systemctl restart configuration-server || true

@@ -1,0 +1,6 @@
+Package: configuration-server
+Version: VERSION
+Architecture: amd64
+Maintainer: Vasileios Pasialiokis <pasivasi@outlook.com>
+Description: Configuration Server
+Depends: php (>= 8.0.0), tar, bash
