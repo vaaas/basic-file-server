@@ -33,7 +33,7 @@ function authenticate(Request $request): bool {
     $x = base64_decode(substr($x, 6), true);
     if (!$x) return false;
     $x = substr($x, 0, -1);
-    return in_array($x, $conf['auth']['tokens']);
+    return $x === $conf['token'];
 }
 
 function handle_error(\Throwable $e): Response {
