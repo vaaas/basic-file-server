@@ -1,5 +1,6 @@
 #!/bin/sh
-chown -R www-data:www-data /opt/configuration-server
+name='basic-file-server'
+chown -R root:root /opt/$name
 systemctl daemon-reload
-systemctl enable configuration-server || true
-systemctl restart configuration-server || true
+systemctl enable $name || true
+systemctl restart $name || true

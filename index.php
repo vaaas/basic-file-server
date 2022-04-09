@@ -16,10 +16,9 @@ function route(Request $request): Response {
     try {
         if ($request->method !== 'GET') return new MethodNotAllowed();
         if (!authenticate($request)) return new Unauthorized();
-        if ($request->url === '/') return new Response(200, ['Content-Type' => 'text/plain' ], 'You are authenticated');
-        $pathname = 'conf' . $request->url;
+        $pathname = getenv('ROOT') . $request->url;
         if (!file_exists($pathname)) return new NotFound();
-        if (is_dir($pathname)) return handle_directory($pathname);
+        if (is_dir($pathname)) return handle_directory($request, $pathname);
         else return new BlobResponse($pathname);
     } catch (\Throwable $e) { return handle_error($e); }
 }
@@ -39,10 +38,11 @@ function handle_error(\Throwable $e): Response {
     return new InternalServerError($e->getMessage());
 }
 
-function handle_directory(string $x): Response {
-    $name = './tars/' . generateRandomString() . '.tar';
-    exec("tar cf {$name} -C {$x} .");
-    return new EphemeralBlobResponse($name);
+function handle_directory(Request $request, string $x): Response {
+    if ($request->has('tar'))
+        return new PassthruBlobResponse("tar c -C {$x} .");
+    else
+        return new JSONResponse(scandir($x));
 }
 
 function main() {

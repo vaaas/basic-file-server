@@ -42,10 +42,15 @@ class BlobResponse extends Response {
     }
 }
 
-class EphemeralBlobResponse extends BlobResponse {
+class PassthruBlobResponse extends Response {
+    function __construct(string $cmd, int $status=200) {
+        parent::__construct($status, ['Content-Type' => 'application/octet-stream'], $cmd);
+    }
+
     function serve(): void {
-        parent::serve();
-        unlink($this->body);
+        http_response_code($this->status);
+        foreach ($this->headers as $k=>$v) header($k . ': ' . $v);
+        passthru($this->body);
     }
 }
 

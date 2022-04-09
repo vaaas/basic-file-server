@@ -1,0 +1,14 @@
+[Unit]
+Description=basic-file-server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Restart=always
+User=root
+Group=root
+WorkingDirectory=/opt/basic-file-server
+ExecStart=bash /opt/basic-file-server/start.sh production
+
+[Install]
+WantedBy=default.target
