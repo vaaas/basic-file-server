@@ -15,7 +15,7 @@ class Response {
 }
 
 class JSONResponse extends Response {
-    function __construct(object|array $x, int $status=200) {
+    function __construct($x, int $status=200) {
         parent::__construct($status, ['Content-Type' => 'application/json'], json_encode($x));
     }
 }

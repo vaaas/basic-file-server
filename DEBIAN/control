@@ -3,4 +3,4 @@ Version: VERSION
 Architecture: amd64
 Maintainer: Vasileios Pasialiokis <pasivasi@outlook.com>
 Description: Basic PHP file server
-Depends: php (>= 8.0.0), tar, bash, dconf-cli
+Depends: php-cli, tar, bash, dconf-cli

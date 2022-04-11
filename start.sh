@@ -1,15 +1,15 @@
 #!/bin/bash
-PORT=$(dconf read /org/vas/basic-file-server/port)
+export PORT=$(dconf read /org/vas/basic-file-server/port)
 if test -z "$PORT"
 then export PORT='8000'
 fi
 
-TOKEN=$(dconf read /org/vas/basic-file-server/token)
+export TOKEN=$(dconf read /org/vas/basic-file-server/token | set s/\'//g)
 if test -z "$TOKEN"
 then export TOKEN='test'
 fi
 
-ROOT=$(dconf read /org/vas/basic-file-server/root)
+export ROOT=$(dconf read /org/vas/basic-file-server/root | set s/\'//g)
 if test -z "$ROOT"
 then export ROOT='/srv'
 fi
